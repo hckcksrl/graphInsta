@@ -1,0 +1,51 @@
+type Image{
+    id:Int!
+    creator_id:Int!
+    file:String!
+    location:String!
+}
+type Comment{
+    id:Int!
+    creator_id:Int!
+    message:String!
+    image_id:Int!
+}
+type Like{
+    id:Int!      
+    creator_id:Int!
+    image_id:Int!  
+}
+type User{
+    id:Int!     
+    username:String!
+    password:String!
+    email:String!         
+    name:String!          
+    bio:String!           
+    gender:String!        
+    phone:String!         
+    website:String!       
+    profile_image:String!     
+}
+
+type Query {
+    images(creator_id:Int!):[Image]
+    image_comment(image_id:Int!):[Comment]
+    image_like(image_id:Int!):[Like]
+    User_profile(username:String! , id:Int):[User]!
+}
+
+type Mutation{
+    CreateImage(location:String , file:String! , creator_id:Int!):Image!
+    CreateComment(image_id:Int! , message:String! , creator_id:String!):Comment!
+    CreateLike(image_id:Int! , creator_id:Int!):Like!
+    CreateUser(username:String! , password:String!):User!
+    DeleteImage(image_id:Int! , creator_id:Int!):Image!
+    DeleteComment(image_id:Int! , creator_id:):Comment!
+    DeleteLike():Like!
+    DeleteUser():User!
+    UpdateImage():Image!
+    UpdateComment():Comment!
+    UpdateLike():Like!
+    UpdateUser():User!
+}
