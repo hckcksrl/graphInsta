@@ -1,0 +1,23 @@
+{
+  "name": "graphInsta",
+  "version": "1.0.0",
+  "description": "graphInsta",
+  "main": "index.js",
+  "repository": "https://github.com/hckcksrl/graphInsta",
+  "author": "hckcksrl",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.14.12",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1"
+  },
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js"
+  }
+}
