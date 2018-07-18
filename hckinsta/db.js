@@ -148,21 +148,21 @@ sequelize.sync({
   User.create({
     username : 'hckcksrl',
     password : '1234',
-    bio : 'ssibal'
+    bio : 'Hi'
   })
 )
 .then(()=>
   User.create({
     username : 'cksrl',
     password : '1234',
-    bio : 'byungsin'
+    bio : 'Good'
   })
 )
 .then(() =>
   User.create({
     username : 'woojin',
     password : '1234',
-    bio : 'ukkk'
+    bio : 'Hello'
   })
 )
 .then(() => 
