@@ -182,14 +182,14 @@ sequelize.sync({
 .then(()=>
   Comment.create({
     image_id : 1,
-    message : 'ssibalnom',
+    message : 'Oh! Thats Great',
     user_id : 2
   })
 )
 .then(()=>
   Comment.create({
     image_id : 1,
-    message : 'nimiral',
+    message : 'HoHoHo',
     user_id : 3
   })
 )
