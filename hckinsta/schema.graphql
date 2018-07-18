@@ -2,7 +2,7 @@ type Image{
     image_id:Int!
     user_id:Int!
     file:String!
-    location:String!
+    location:String
 }
 type Comment{
     comment_id:Int!
@@ -14,6 +14,11 @@ type Like{
     like_id:Int!      
     user_id:Int!
     image_id:Int!  
+}
+type Follower{
+    id:Int!,
+    from_id:Int!,
+    to_id:Int!
 }
 type User{
     user_id:Int!     
@@ -27,33 +32,46 @@ type User{
     website:String       
     profile_image:String     
 }
-
+type Boolean{
+    result:Boolean!
+}
 type Query {
     images(user_id:Int!):[Image]
     image_comment(image_id:Int!):[Comment]
     image_like(image_id:Int!):[Like]
     User_profile(username:String! , user_id:Int):User
+    follower(from_id:Int!):[Follower]
+    following(to_id:Int!):[Follower]
+    allImage:[Image]
+    allComment:[Comment]
+    allLike:[Like]
+    allFollower:[Follower]
+    allUser:[User]
 }
 
 type Mutation{
     CreateImage(location:String , file:String! , user_id:Int!):Image!
-    CreateComment(image_id:Int! , message:String! , user_id:String!):Comment!
+    CreateComment(image_id:Int! , message:String! , user_id:Int!):Comment!
     CreateLike(image_id:Int! , user_id:Int!):Like!
     CreateUser(username:String! , password:String!):User!
-    # DeleteImage(image_id:Int! , user_id:Int!):Image!
-    # DeleteComment(comment_id:Int! , user_id:Int!):Comment!
-    # DeleteLike(like_id:Int! , user_id:Int!):Like!
-    # DeleteUser(username:String! , password:String!):User!
-    # UpdateImage(image_id:Int! , file:String , location:Int):Image!
-    # UpdateComment(image_id:Int! , message:Int! , user_id:Int!):Comment!
-    # UpdateUser(
-    #     username:String!
-    #     email:String ,        
-    #     name:String ,         
-    #     bio:String ,         
-    #     gender:String ,       
-    #     phone:String ,        
-    #     website:String ,      
-    #     profile_image:String
-    # ) : User!
+    CreateFollower(from_id:Int! , to_id:Int!):Follower!
+    DeleteImage(image_id:Int! , user_id:Int!):Boolean!
+    DeleteComment(comment_id:Int! , user_id:Int!):Boolean!
+    DeleteLike(like_id:Int! , user_id:Int!):Boolean!
+    DeleteUser(username:String! , password:String!):Boolean!
+    DeleteFollower(from_id:Int! , to_id:Int!):Boolean!
+    UpdateImage(image_id:Int! , file:String , location:String ,user_id:Int!):Boolean!
+    UpdateComment(image_id:Int! , message:String! , user_id:Int!):Boolean!
+    UpdateUser(
+        username:String!,
+        password:String!,
+        email:String ,        
+        name:String ,         
+        bio:String ,         
+        gender:String ,       
+        phone:String ,        
+        website:String ,      
+        profile_image:String
+    ) : Boolean!
+    
 }
