@@ -1,13 +1,11 @@
 import {sequelize} from "./db"
 
-
 const resolvers = {
     Query : {
         images : async (_,args) => {
-            await console.log(args.caller)
             return await sequelize.model('image').findAll({
                 where : {
-                    image_id : args.user_id
+                    user_id : args.user_id
                 }
             })
         },
@@ -32,12 +30,41 @@ const resolvers = {
                 }
             })
         },
+        follower : async(_,args) => {
+            return await sequelize.model('follower').findAll({
+                where : {
+                    from_id : args.from_id
+                }
+            })
+        },
+        following : async(_,args) => {
+            return await sequelize.model('follower').findAll({
+                where : {
+                    to_id : args.to_id
+                }
+            })
+        },
+        allImage : async () => {
+            return await sequelize.model('image').all()
+        },
+        allComment : async () => {
+            return await sequelize.model('comment').all()
+        },
+        allLike : async () => {
+            return await sequelize.model('like').all()
+        },
+        allFollower : async () => {
+            return await sequelize.model('follower').all()
+        },
+        allUser : async () => {
+            return await sequelize.model('user').all()
+        },
     },
     Mutation : {
         CreateImage : async (_,args) => {
             return await sequelize.model('image').create({
                 file : args.file,
-                // location : args.location,
+                location : args.location,
                 user_id : args.user_id
             })
         },
@@ -60,27 +87,92 @@ const resolvers = {
                 password : args.password,
             })
         },
-        // DeleteImage : async (_,args) => {
-        //     return await sequelize.models('image').destroy()
-        // },
-        // DeleteComment : async (_,args) => {
-
-        // },
-        // DeleteLike : async (_,args) => {
-
-        // },
-        // DeleteUser : async (_,args) => {
-
-        // },
-        // UpdateImage : async (_,args) => {
-
-        // },
-        // UpdateComment : async (_,args) => {
-
-        // },
-        // UpdateUser : async (_,args) => {
-
-        // },
+        CreateFollower : async (_,args) => {
+            return await sequelize.model('follower').create({
+                from_id : args.from_id,
+                to_id : args.to_id
+            })
+        },
+        DeleteImage : async (_,args) => {
+            return await sequelize.model('image').destroy({
+                where :{
+                    image_id : args.image_id,
+                    user_id : args.user_id
+                }
+            })
+        },
+        DeleteComment : async (_,args) => {
+            return await sequelize.model('comment').destroy({
+                where :{
+                    comment_id : args.comment_id,
+                    user_id : args.user_id
+                }
+            })
+        },
+        DeleteLike : async (_,args) => {
+            return await sequelize.model('like').destroy({
+                where :{
+                    like_id : args.like_id,
+                    user_id : args.user_id
+                }
+            })
+        },
+        DeleteUser : async (_,args) => {
+            return await sequelize.model('user').destroy({
+                where :{
+                    username : args.username,
+                    password : args.password
+                }
+            })
+        },
+        DeleteFollower : async (_,args) => {
+            return await sequelize.model('follower').destroy({
+                where : {
+                    from_id : args.from_id,
+                    to_id : args.to_id
+                }
+            })
+        },
+        UpdateImage : async (_,args) => {
+            return await sequelize.model('image').update({
+                    file : args.file,
+                    location : args.location
+                } , {
+                    where :{
+                        image_id : args.image_id,
+                        user_id : args.user_id
+                    }
+                }
+            )
+        },
+        UpdateComment : async (_,args) => {
+            return await sequelize.model('comment').update({
+                    message : args.message
+                } , {
+                    where :{
+                        image_id : args.image_id,
+                        user_id : args.user_id
+                    }
+                }
+            )
+        },
+        UpdateUser : async (_,args) => {
+            return await sequelize.model('user').update({
+                    email :args.email,
+                    name :args.name,
+                    bio :args.bio,
+                    gender :args.gender,
+                    phone :args.phone,
+                    website :args.website,
+                    profile_image :args.profile_image,
+                } , {
+                    where :{
+                        username : args.username,
+                        password : args.password
+                    }
+                }
+            )
+        },
     }
     
 }
