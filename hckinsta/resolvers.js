@@ -1,77 +1,88 @@
 import {sequelize} from "./db"
-import { request } from "http";
+
 
 const resolvers = {
     Query : {
         images : async (_,args) => {
-            let result;
-            await sequelize.query(
-                `select * from images_image where creator_id = ? ;`,
-                {   
-                    replacements : [args.creator_id] ,
-                    type : sequelize.QueryTypes.SELECT
-                })
-                .then((rows)=> {
-                    result = rows
-                    console.log(result)
-                    return result
+            await console.log(args.caller)
+            return await sequelize.model('image').findAll({
+                where : {
+                    image_id : args.user_id
                 }
-            )
-            return await result
+            })
         },
-        image_comment : async (_,args) => {
-            let result;
-            await sequelize.query(
-                `select * from images_comment where image_id = ? ;`,
-                {   
-                    replacements : [args.image_id] ,
-                    type : sequelize.QueryTypes.SELECT
-                })
-                .then((rows)=> {
-                    result = rows
-                    console.log(result)
-                    return result
+        image_comment : async(_,args) => {
+            return await sequelize.model('comment').findAll({
+                where : {
+                    image_id : args.image_id
                 }
-            )
-            return await result
+            })
         },
-        image_like : async (_,args) => {
-            let result;
-            await sequelize.query(
-                `select * from images_like where image_id = ? ;`,
-                {   
-                    replacements : [args.image_id] ,
-                    type : sequelize.QueryTypes.SELECT
-                })
-                .then((rows)=> {
-                    result = rows
-                    console.log(result)
-                    return result
+        image_like : async(_,args) => {
+            return await sequelize.model('like').findAll({
+                where :{
+                    image_id : args.image_id
                 }
-            )
-            return await result
+            })
         },
-        User_profile : async (_,args) => {
-            let result;
-            await sequelize.query(
-                `select * from users_user where username = ? or id = ?;`,
-                {   
-                    replacements : [args.username , args.id] ,
-                    type : sequelize.QueryTypes.SELECT
-                })
-                .then((rows)=> {
-                    result = rows
-                    console.log(result)
-                    return result
+        User_profile : async(_,args) => {
+            return await sequelize.model('user').findOne({
+                where : {
+                    username : args.username
                 }
-            )
-            return await result
+            })
         },
-
     },
-    // Mutation : {
-    //     Updata
-    // }
+    Mutation : {
+        CreateImage : async (_,args) => {
+            return await sequelize.model('image').create({
+                file : args.file,
+                // location : args.location,
+                user_id : args.user_id
+            })
+        },
+        CreateComment : async (_,args) => {
+            return await sequelize.model('comment').create({
+                image_id : args.image_id,
+                message : args.message,
+                user_id : args.user_id
+            })
+        },
+        CreateLike : async (_,args) => {
+            return await sequelize.model('like').create({
+                image_id : args.image_id,
+                user_id : args.user_id
+            })
+        },
+        CreateUser : async (_,args) => {
+            return await sequelize.model('user').create({
+                username : args.username,
+                password : args.password,
+            })
+        },
+        // DeleteImage : async (_,args) => {
+        //     return await sequelize.models('image').destroy()
+        // },
+        // DeleteComment : async (_,args) => {
+
+        // },
+        // DeleteLike : async (_,args) => {
+
+        // },
+        // DeleteUser : async (_,args) => {
+
+        // },
+        // UpdateImage : async (_,args) => {
+
+        // },
+        // UpdateComment : async (_,args) => {
+
+        // },
+        // UpdateUser : async (_,args) => {
+
+        // },
+    }
+    
 }
 
 export default resolvers
