@@ -5,7 +5,7 @@ const resolvers = {
         images : async (_,args) => {
             return await sequelize.model('image').findAll({
                 where : {
-                    user_id : args.user_id
+                    username : args.username
                 }
             })
         },
@@ -23,7 +23,7 @@ const resolvers = {
                 }
             })
         },
-        User_profile : async(_,args) => {
+        user_profile : async(_,args) => {
             return await sequelize.model('user').findOne({
                 where : {
                     username : args.username
@@ -33,14 +33,14 @@ const resolvers = {
         follower : async(_,args) => {
             return await sequelize.model('follower').findAll({
                 where : {
-                    from_id : args.from_id
+                    from_username : args.from_username
                 }
             })
         },
         following : async(_,args) => {
             return await sequelize.model('follower').findAll({
                 where : {
-                    to_id : args.to_id
+                    to_username : args.to_username
                 }
             })
         },
@@ -65,20 +65,20 @@ const resolvers = {
             return await sequelize.model('image').create({
                 file : args.file,
                 location : args.location,
-                user_id : args.user_id
+                username : args.username
             })
         },
         CreateComment : async (_,args) => {
             return await sequelize.model('comment').create({
                 image_id : args.image_id,
                 message : args.message,
-                user_id : args.user_id
+                username : args.username
             })
         },
         CreateLike : async (_,args) => {
             return await sequelize.model('like').create({
                 image_id : args.image_id,
-                user_id : args.user_id
+                username : args.username
             })
         },
         CreateUser : async (_,args) => {
@@ -89,15 +89,15 @@ const resolvers = {
         },
         CreateFollower : async (_,args) => {
             return await sequelize.model('follower').create({
-                from_id : args.from_id,
-                to_id : args.to_id
+                from_username : args.from_username,
+                to_username : args.to_username
             })
         },
         DeleteImage : async (_,args) => {
             return await sequelize.model('image').destroy({
                 where :{
                     image_id : args.image_id,
-                    user_id : args.user_id
+                    username : args.username
                 }
             })
         },
@@ -105,7 +105,7 @@ const resolvers = {
             return await sequelize.model('comment').destroy({
                 where :{
                     comment_id : args.comment_id,
-                    user_id : args.user_id
+                    username : args.username
                 }
             })
         },
@@ -113,7 +113,7 @@ const resolvers = {
             return await sequelize.model('like').destroy({
                 where :{
                     like_id : args.like_id,
-                    user_id : args.user_id
+                    username : args.username
                 }
             })
         },
@@ -128,8 +128,8 @@ const resolvers = {
         DeleteFollower : async (_,args) => {
             return await sequelize.model('follower').destroy({
                 where : {
-                    from_id : args.from_id,
-                    to_id : args.to_id
+                    from_username : args.from_username,
+                    to_username : args.to_username
                 }
             })
         },
@@ -140,7 +140,7 @@ const resolvers = {
                 } , {
                     where :{
                         image_id : args.image_id,
-                        user_id : args.user_id
+                        username : args.username
                     }
                 }
             )
@@ -151,7 +151,7 @@ const resolvers = {
                 } , {
                     where :{
                         image_id : args.image_id,
-                        user_id : args.user_id
+                        username : args.username
                     }
                 }
             )
