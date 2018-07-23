@@ -7,6 +7,7 @@
   "author": "hckcksrl",
   "license": "MIT",
   "dependencies": {
+    "apollo-server": "^2.0.0-rc.12",
     "graphql-yoga": "^1.14.12",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
