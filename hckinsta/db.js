@@ -13,12 +13,14 @@ const User = sequelize.define('user', {
       type : Sequelize.INTEGER,
       autoIncrement : true,
       allowNull : false ,
-      primaryKey : true
+      unique : true,
+
     },
     username : {
       type : Sequelize.STRING,
       unique : true,
-      allowNull : false
+      allowNull : false,
+      primaryKey : true,
     },
     password : {
       type : Sequelize.STRING,
@@ -122,8 +124,8 @@ const Follower = sequelize.define('follower' , {
   }
 )
 
-User.hasMany(Image ,{foreignKey:'user_id'})
-Image.belongsTo(User ,{foreignKey:'user_id'})
+User.hasMany(Image ,{foreignKey:'username'})
+Image.belongsTo(User ,{foreignKey:'username'})
 
 Image.hasMany(Comment ,{foreignKey:'image_id'})
 Comment.belongsTo(Image ,{foreignKey:'image_id'})
@@ -131,14 +133,14 @@ Comment.belongsTo(Image ,{foreignKey:'image_id'})
 Image.hasMany(Like ,{foreignKey:'image_id'})
 Like.belongsTo(Image ,{foreignKey:'image_id'})
 
-User.hasMany(Comment ,{foreignKey:'user_id'})
-Comment.belongsTo(User ,{foreignKey:'user_id'})
+User.hasMany(Comment ,{foreignKey:'username'})
+Comment.belongsTo(User ,{foreignKey:'username'})
 
-User.hasMany(Like ,{foreignKey:'user_id'})
-Like.belongsTo(User ,{foreignKey:'user_id'})
+User.hasMany(Like ,{foreignKey:'username'})
+Like.belongsTo(User ,{foreignKey:'username'})
 
-User.belongsToMany(User , {as : 'from_id',through : Follower , foreignKey : 'from_id'})
-User.belongsToMany(User , {as : 'to_id',through : Follower , foreignKey : 'to_id'})
+User.belongsToMany(User , {as : 'from_username',through : Follower , foreignKey : 'from_username'})
+User.belongsToMany(User , {as : 'to_username',through : Follower , foreignKey : 'to_username'})
 
 
 sequelize.sync({
@@ -169,40 +171,40 @@ sequelize.sync({
   Image.create({
     file : 'hckcksrl',
     location : 'daejeon',
-    user_id : 1
+    username : 'hckcksrl'
   })
 )
 .then(()=>
   Image.create({
     file : 'cksrl',
     location : 'seoul',
-    user_id : 2
+    username : 'hckcksrl'
   })
 )
 .then(()=>
   Comment.create({
     image_id : 1,
     message : 'Oh! Thats Great',
-    user_id : 2
+    username : 'cksrl'
   })
 )
 .then(()=>
   Comment.create({
     image_id : 1,
     message : 'HoHoHo',
-    user_id : 3
+    username : 'hckcksrl'
   })
 )
 .then(()=>
   Like.create({
     image_id : 1,
-    user_id : 1
+    username : 'woojin'
   })
 )
 .then(()=>
   Like.create({
     image_id : 1,
-    user_id : 3
+    username : 'hckcksrl'
   })
 )
 
